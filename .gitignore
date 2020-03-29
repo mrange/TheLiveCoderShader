@@ -1,0 +1,8 @@
+
+.fake
+.ionide
+.vs/
+
+packages/
+obj/
+bin/
