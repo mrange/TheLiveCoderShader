@@ -30,9 +30,9 @@
     {
       this.glControl = new OpenGL.GlControl();
       this.SuspendLayout();
-      // 
+      //
       // glControl
-      // 
+      //
       this.glControl.Animation = true;
       this.glControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(200)))), ((int)(((byte)(64)))));
       this.glControl.CausesValidation = false;
@@ -50,9 +50,9 @@
       this.glControl.ContextDestroying += new System.EventHandler<OpenGL.GlControlEventArgs>(this.glControl_ContextDestroying);
       this.glControl.Render += new System.EventHandler<OpenGL.GlControlEventArgs>(this.glControl_Render);
       this.glControl.ContextUpdate += new System.EventHandler<OpenGL.GlControlEventArgs>(this.glControl_ContextUpdate);
-      // 
+      //
       // Main
-      // 
+      //
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
       this.ClientSize = new System.Drawing.Size(1578, 1144);
       this.Controls.Add(this.glControl);

@@ -18,9 +18,9 @@ namespace TheLiveCodersShader
     static void Main()
     {
       string envDebug = Environment.GetEnvironmentVariable("DEBUG");
-      if (envDebug == "GL") 
+      if (envDebug == "GL")
       {
-        KhronosApi.Log += delegate(object sender, KhronosLogEventArgs e) 
+        KhronosApi.Log += delegate(object sender, KhronosLogEventArgs e)
         {
           DebugTrace(e.ToString());
         };

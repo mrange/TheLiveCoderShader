@@ -77,9 +77,9 @@ float noise(vec2 p) {
   const float K2 = .211324865;
 
   vec2 i = floor (p + (p.x + p.y)*K1);
-    
+
   vec2 a = p - i + (i.x + i.y)*K2;
-  vec2 o = step (a.yx, a.xy);    
+  vec2 o = step (a.yx, a.xy);
   vec2 b = a - o + K2;
   vec2 c = a - 1. + 2.*K2;
 
@@ -93,22 +93,22 @@ float noise(vec2 p) {
 float fbm(vec2 pos, float tm) {
   vec2 offset = vec2(cos(tm), sin(tm*sqrt(0.5)));
   float aggr = 0.0;
-    
+
   aggr += noise(pos);
   aggr += noise(pos + offset) * 0.5;
   aggr += noise(pos + offset.yx) * 0.25;
   aggr += noise(pos - offset) * 0.125;
   aggr += noise(pos - offset.yx) * 0.0625;
-    
+
   aggr /= 1.0 + 0.5 + 0.25 + 0.125 + 0.0625;
-    
-  return (aggr * 0.5) + 0.5;    
+
+  return (aggr * 0.5) + 0.5;
 }
 
 vec3 lightning(vec2 pos, float offset) {
   vec3 col = vec3(0.0);
   vec2 f = 10.0*SCA(PI/2.0 + TTIME/PERIOD);
-    
+
   for (int i = 0; i < 3; i++) {
     float btime = TTIME*85.0/PERIOD + float(i);
     float rtime = TTIME*75.0/PERIOD + float(i) + 10.0;
@@ -117,7 +117,7 @@ vec3 lightning(vec2 pos, float offset) {
     col += vec3(d1 * vec3(0.1, 0.3, 0.8));
     col += vec3(d2 * vec3(0.7, 0.3, 0.5));
   }
-    
+
   return col;
 }
 
@@ -170,17 +170,17 @@ float spokes(vec2 p, float s) {
 }
 
 float arcs(vec2 p, float s) {
-  
+
   float d1 = arc(p, sca1, sca2, s*0.275, s*0.025);
   float d2 = arc(p, sca1, sca2, s*0.18, s*0.025);
-  
+
   return min(d1, d2);
 }
 
 float meeple(vec2 p, float s) {
   float dh = box(p - s*vec2(0.0, -0.035), s*vec2(0.07, 0.1), s*vec4(0.065));
   float dc = box(p - s*vec2(0.0, -0.22), s*vec2(0.15, 0.04), s*vec4(0.05, 0.02, 0.05, 0.02));
-  
+
   return pmin(dh, dc, s*0.115);
 }
 
@@ -189,12 +189,12 @@ float theLiveCoders(vec2 p, float s) {
   float dc = circle(p, 0.375*s);
   float da = arcs(p, s);
   float dm = meeple(p, s);
-  
+
   float d = ds;
   d = min(d, dc);
   d = max(d, -da);
   d = max(d, -dm);
-  
+
   return d;
 }
 
@@ -204,7 +204,7 @@ float df(vec2 p) {
 }
 
 vec3 postProcess(vec3 col, vec2 q, vec2 p)  {
-  col=pow(clamp(col,0.0,1.0),vec3(0.75)); 
+  col=pow(clamp(col,0.0,1.0),vec3(0.75));
   col=col*0.6+0.4*col*col*(3.0-2.0*col);
   col=mix(col, vec3(dot(col, vec3(0.33))), -0.4);
   col*=vec3(1.0 - tanh(pow(length(p/1.5), 5.0)));
@@ -220,16 +220,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   p *= 1.0;
 
   float d = df(p);
-  
+
   const vec3  background   = vec3(0.0)/vec3(255.0);
 
   vec3 col = background;
 
   float borderStep = 0.0075;
- 
+
   vec3 baseCol = vec3(1.0);
   vec4 logoCol = vec4(baseCol, 1.0)*smoothstep(-borderStep, 0.0, -d);
-  
+
   if (d >= 0.0) {
     vec2 pp = toPolar(p);
     float funky = 0.7*pow((0.5 - 0.5*cos(TTIME/PERIOD)), 4.0);
